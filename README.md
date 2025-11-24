@@ -1,4 +1,4 @@
-# THE LAST OBSERVER - SHOWCASE
+# THE LAST OBSERVER 
 
 **Experimental survival game about control, pressure and isolation**\
 This public repository contains a curated selection of scripts, systems
