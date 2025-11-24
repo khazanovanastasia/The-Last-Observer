@@ -1,13 +1,15 @@
-# THE LAST OBSERVER --- SHOWCASE
+# THE LAST OBSERVER - SHOWCASE
 
-**Experimental survival game about control, pressure and isolation.**\
+**Experimental survival game about control, pressure and isolation**\
 This public repository contains a curated selection of scripts, systems
 and technical materials that illustrate how the core mechanics of the
-game are implemented.
+game are implemented
 
-> *Full Unity project remains private.\
+> *Full Unity project remains private\
 > This repository is designed as a clean and readable technical
-> showcase.*
+> showcase*
+
+![Gameplay Demo](Media/gifs/observer_demo.gif)
 
 ## About the Game
 
