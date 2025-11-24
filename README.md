@@ -1,138 +1,102 @@
-THE LAST OBSERVER — SHOWCASE
+# THE LAST OBSERVER --- SHOWCASE
 
-Experimental survival game about control, pressure and isolation.
-This public repository contains a curated selection of scripts, systems and technical materials that illustrate how the core mechanics of the game are implemented.
+**Experimental survival game about control, pressure and isolation.**\
+This public repository contains a curated selection of scripts, systems
+and technical materials that illustrate how the core mechanics of the
+game are implemented.
 
-Full Unity project remains private.
-This repository is designed as a clean and readable technical showcase.
+> *Full Unity project remains private.\
+> This repository is designed as a clean and readable technical
+> showcase.*
 
-🎮 About the Game
+## About the Game
 
-The Last Observer places the player in a sealed panopticon room at the center of a multi-floor building. Surrounded by five doors, limited tools and a failing surveillance system, the player must survive as hostile NPCs move through the environment.
+**The Last Observer** places the player in a sealed panopticon room at
+the center of a multi-floor building. Surrounded by five doors, limited
+tools and a failing surveillance system, the player must survive as
+hostile NPCs move through the environment.
 
-You cannot move.
+You cannot move.\
 You can only observe.
 
 Your only advantage is your ability to control information.
 
-🧩 Core Gameplay Features
-📷 Camera System
+## Core Gameplay Features
 
-Network of surveillance cameras with:
+### Camera System
 
-grid view
+-   Network of surveillance cameras with:
+    -   **grid view**
+    -   **individual feed view**
+    -   **previous / next** camera cycling\
+-   Optimized rendering for multiple camera feeds
+-   Manual mapping mechanic: players annotate a building blueprint with
+    camera numbers
 
-individual feed view
+### Door System
 
-previous / next camera cycling
+-   Five player-controlled doors
+-   Only **one door can be closed at a time**
+-   Enemies attempt entry from dynamically chosen routes
 
-Optimized rendering for multiple camera feeds (no render texture spam)
+### Phone Events
 
-Manual mapping mechanic: players annotate a building blueprint with camera numbers
+-   Simulated emergency hotline calls
+-   Responses degrade over time
 
-🚪 Door System
+### NPC Navigation
 
-Five player-controlled doors
+-   Unity NavMesh
+-   Randomized patrol routes
+-   Event-driven behavior (lights out, broken cameras, new passages)
 
-Only one door can be closed at any moment
+### Game Loop
 
-Enemies attempt entry from dynamically chosen routes
+-   Survive a fixed amount of time
+-   Win/lose states implemented
 
-☎️ Phone Events
+## Technical Highlights Included in This Repo
 
-Simulated emergency hotline calls
+    /Scripts
+        CameraSystem/
+        DoorSystem/
+        Interaction/
+        NPC/
+        UI/
+        Events/
 
-Responses degrade over time, amplifying tension
+    /Docs
+        technical_breakdown.md
+        gameplay_flow.md
+        system_diagrams.png
 
-👾 NPC Navigation
+    /Media
+        screenshots/
+        gifs/
 
-Implementation using Unity NavMesh
+## Tech Stack
 
-Randomized patrol routes
+-   Unity (URP)
+-   C#
+-   Blender
+-   Custom tools for camera rendering & UI interaction
 
-Event-driven behavior (lights out, broken cameras, new passages)
+## Project Demo
 
-Future: procedural model variations through Blender plugin
+*(Optional --- update when available)*
 
-💀 Game Loop
+## Documentation
 
-Survive a fixed amount of time
+-   **technical_breakdown.md**
+-   **gameplay_flow.md**
+-   **future_plans.md**
 
-Win/lose states implemented
+## Development Notes
 
-Expandable for future missions and modifiers
+This project is a solo development effort --- all modeling, scripting,
+design and system architecture are created by me.
 
-🛠️ Technical Highlights Included in This Repo
+## Contact
 
-This showcase contains:
+Add email / website / portfolio link here.
 
-/Scripts
-    CameraSystem/
-    DoorSystem/
-    Interaction/
-    NPC/
-    UI/
-    Events/
-
-/Docs
-    technical_breakdown.md
-    gameplay_flow.md
-    system_diagrams.png
-
-/Media
-    screenshots/
-    gifs/
-
-
-What’s deliberately not included:
-
-heavy assets
-
-full Unity scenes
-
-Blender files
-
-build data
-
-This keeps the repo light, readable, browser-friendly and recruiter-friendly.
-
-🖥️ Tech Stack
-
-Unity (URP)
-
-C#
-
-Blender (environment modeling & prototype NPC)
-
-Custom tools for camera rendering & UI interaction
-
-Planned procedural NPC mesh modifier (Blender Python API)
-
-🌐 Project Demo
-
-(Optional — update when available)
-
-WebGL build
-
-Video capture
-
-Screenshot gallery
-
-📚 Documentation
-
-technical_breakdown.md — explanation of main systems
-
-gameplay_flow.md — how the player interacts with the environment
-
-future_plans.md — roadmap of upcoming features
-
-🚀 Development Notes
-
-This project is a solo development effort — all modeling, scripting, design and system architecture are created by me.
-
-The public version is continuously evolving as I clean up and extract code from the full private repository.
-
-📮 Contact
-
-If you'd like to discuss collaboration or opportunities, feel free to reach out.
-(Add email / website / portfolio link)
