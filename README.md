@@ -9,7 +9,7 @@ game are implemented
 > This repository is designed as a clean and readable technical
 > showcase*
 
-![Gameplay Demo](Visuals/gifs/observer_demo.gif)
+![Gameplay Demo](Media/gifs/observer_demo.gif)
 
 ## About the Game
 
