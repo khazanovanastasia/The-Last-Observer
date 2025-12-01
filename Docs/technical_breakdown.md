@@ -22,7 +22,7 @@ Five doors can be controlled by the player.
 Rules:
 - Only *one* door can be closed at any time.
 - Closing a new door automatically opens the previous one.
-- Doors react to NPC proximity.
+- Doors react to NPC proximity. ??
 
 ### 3. NPC Navigation
 NPCs follow:
@@ -38,11 +38,11 @@ NPCs may:
 ### 4. Interaction System
 The player interacts with:
 - The computer (camera feeds)
-- The building blueprint (annotations)
+- The building blueprint (annotations) ??
 - The phone (story cues)
 - The doors (survival system)
 
-The interaction system uses raycasts and UI events.
+The interaction system uses raycasts and UI events. ??
 
 ### 5. Game Loop
 - The goal is to survive a fixed amount of time.
@@ -51,7 +51,8 @@ The interaction system uses raycasts and UI events.
 ### 6. Rendering Optimization
 Because many render textures are active:
 - Camera updates are throttled
-- Cameras are disabled outside of active view
+- Cameras are disabled outside of active view ??
 - Low resolution textures used in grid mode
 
 ---
+
