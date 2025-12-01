@@ -3,7 +3,7 @@
 ## 1. Camera Subsystem
 - RenderTexture-based
 - Individual camera classes manage feed state
-- Cameras generate events when they go offline
+- Cameras generate events when they go offline ??
 - Cameras can be broken by NPCs
 
 ## 2. Door Subsystem
