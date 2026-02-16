@@ -123,5 +123,6 @@ This project is a **solo development effort** — all modeling, scripting, desig
 
 ## Contact
 
-https://khazanovanastasia.ru/
+https://khazanovanastasia.ru
+
 khasanovanastasia@gmail.com
