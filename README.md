@@ -1,11 +1,11 @@
-# THE LAST OBSERVER - SHOWCASE
+# THE LAST OBSERVER 
+*Technical Showcase — Unity Gameplay Systems & Tools*
 
 **Experimental survival game about control, pressure and isolation**
 
-This public repository contains a curated selection of scripts and systems that illustrate the core surveillance mechanics of the game.
-
-> *Full Unity project remains private*  
-> *This repository is designed as a clean and readable technical showcase*
+This repository contains a technical showcase of core gameplay systems developed for The Last Observer
+It demonstrates the architecture, gameplay mechanics, and custom tools behind a surveillance-based survival experience, including camera management, NPC navigation, interactive UI systems, and asset production workflows
+The complete Unity project remains private. This repository focuses on selected systems and documentation that illustrate the engineering approach behind the game.
 
 ![Gameplay Demo](Media/gifs/observer_demo.gif)
 
@@ -13,46 +13,63 @@ This public repository contains a curated selection of scripts and systems that 
 
 ## About the Game
 
-**The Last Observer** places the player in a sealed panopticon room at the center of a multi-floor building. Surrounded by five doors and a failing surveillance system, the player must survive as hostile NPCs move through the environment.
+**The Last Observer** places the player in a sealed panopticon room at the center of a multi-floor building.
+Surrounded by five doors and a failing surveillance system, the player must survive as hostile NPCs move through the environment
 
-**You cannot move. You can only observe.**
+**You cannot move. You can only observe**
 
-Your only advantage is your ability to control information — monitor camera feeds, map the building layout, and make split-second decisions about which door to close.
+Your objective is to survive a fixed-duration session while hostile NPCs navigate through the building
+You cannot move or fight - your only tools are observation, information management, and limited environmental control
+
+---
+
+## Design Goals
+
+The game explores decision-making under uncertainty
+
+By removing direct movement and combat, the player is forced to rely on observation, prediction, and resource management
+
+Every action is a trade-off:
+- closing one door leaves others vulnerable
+- focusing on one camera reduces awareness of the rest of the building
+- incomplete information creates pressure and uncertainty
 
 ---
 
 ## Core Systems
 
-### Camera Surveillance System
+###  Gameplay Loop
+- Survive a fixed-duration session
+- Observe NPC activity through surveillance cameras
+- Analyze incomplete information using the building map
+- Make limited defensive decisions by controlling doors
+- Adapt to dynamic events that change the environment
+  
+### Surveillance System
 - Network of 30+ security cameras across multiple floors
-- **Grid View** — monitor all cameras simultaneously
-- **Detail View** — examine individual feeds with navigation
-- **Floor Plan** — annotate blueprints to track camera locations
+- **Grid View** - monitor all cameras simultaneously
+- **Detail View** - examine individual feeds with navigation
+- **Floor Plan** - annotate blueprints to track camera locations and passages condition
 - Randomized broken cameras for incomplete information each playthrough
 
-### Door Control System
-- Five player-controlled doors surrounding the panopticon
-- Only **one door can be closed at a time**
-- NPCs dynamically choose entry routes
-
-### NPC Navigation
+### NPC Behavior
 - Unity NavMesh-based pathfinding
 - Event-driven behavior (lights out, broken cameras, opened passages)
-- Reacts to player surveillance activity
 
-### Phone Events System
-- Simulated emergency hotline calls
-- Time-sensitive decisions and degrading responses
+### Door Control
+- Five player-controlled doors surrounding the panopticon
+- **Only one door can be closed at a time**
+- NPCs dynamically choose entry routes
 
 ---
 
 ## Technical Highlights
 
-- **Mediator Pattern** for decoupled architecture
-- **Event-driven UI** with zero cross-dependencies
-- **Optimized rendering** with dual RenderTextures (grid/detail)
-- **Session-persistent drawing** on floor plan UI
-- **3D interaction system** with highlight feedback
+- Decoupled game architecture using mediator-based communication
+- Event-driven UI systems with minimal dependencies between components
+- Custom surveillance rendering pipeline using RenderTextures
+- Persistent interactive map annotation system
+- Modular NPC and event systems designed for future expansion
 
 **→ [Full Architecture Documentation](Documentation/Architecture.md)**
 
@@ -60,8 +77,8 @@ Your only advantage is your ability to control information — monitor camera fe
 
 ## Tools & Pipeline
 
-### Material Import Pipeline
-Custom Unity Editor tool for automating Blender-to-Unity material workflow:
+### Asset Production Pipeline
+Custom Blender → Unity workflow for automated texture baking and material setup:
 - Blender addon bakes procedural materials → Albedo, Normal, MRAO maps
 - Unity import script auto-configures texture settings and compression
 - Naming convention-based material setup
@@ -99,7 +116,9 @@ Custom Unity Editor tool for automating Blender-to-Unity material workflow:
 
 - **Unity 2022.3.62f3** (Built-in)
 - **C#**
-- **Blender** (3D modeling)
+- **Blender** (3D modeling, procedural materials)
+- **Python** (Blender API scripting, pipeline automation)
+- Custom Unity Editor tools
 - Custom camera rendering & UI interaction tools
 
 ---
@@ -112,12 +131,12 @@ Custom Unity Editor tool for automating Blender-to-Unity material workflow:
 
 ---
 
-## Development
+## Development Status
 
-This project is a **solo development effort** — all modeling, scripting, design and system architecture created by me.
+The project is currently in active development
 
-**Status:** Active development  
-**Focus:** Clean architecture, performance optimization, and scalable systems
+Core gameplay systems, AI, surveillance mechanics, and technical architecture are implemented
+Current development focus is content production: environment creation, asset production, and level design
 
 ---
 

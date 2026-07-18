@@ -37,56 +37,7 @@ Input Layer (commands) → Controller Layer (mediator) → View Layer (UI)
 ## Architecture Diagram
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                         INPUT LAYER                             │
-│                                                                 │
-│  ┌──────────────────────┐      ┌─────────────────────────┐     │
-│  │   InputHandler       │      │  PlayerInteraction      │     │
-│  │   (Keyboard/Mouse)   │      │  (3D Raycast)           │     │
-│  └──────────┬───────────┘      └───────────┬─────────────┘     │
-│             │                               │                   │
-└─────────────┼───────────────────────────────┼───────────────────┘
-              │                               │
-              │  Commands                     │  Commands
-              ▼                               ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                      CONTROLLER LAYER                           │
-│                                                                 │
-│                     ┌──────────────────┐                        │
-│                     │   ViewManager    │ ◄── Mediator Pattern   │
-│                     │   (Singleton)    │                        │
-│                     └────────┬─────────┘                        │
-│                              │                                  │
-│        ┌─────────────────────┼─────────────────────┐           │
-│        │                     │                     │           │
-│        │                     │                     │           │
-│   Owns & Manages        Fires Events          Controls         │
-│        │                     │                     │           │
-│        ▼                     ▼                     ▼           │
-│  ┌──────────┐        ┌──────────────┐      ┌──────────────┐   │
-│  │ Camera   │        │ OnModeChanged│      │   Camera     │   │
-│  │ Data[]   │        │ OnStatic...  │      │   Enable/    │   │
-│  │ (Model)  │        │ OnCamera...  │      │   Coroutines │   │
-│  └──────────┘        └──────────────┘      └──────────────┘   │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
-              │                     │                     │
-              │                     │                     │
-              ▼                     ▼                     ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                         VIEW LAYER (UI)                         │
-│                                                                 │
-│  ┌───────────────┐  ┌───────────────┐  ┌──────────────────┐   │
-│  │ CameraGridUI  │  │ DetailViewUI  │  │  FloorPlanUI     │   │
-│  │               │  │               │  │  + DrawSurface   │   │
-│  └───────┬───────┘  └───────┬───────┘  └────────┬─────────┘   │
-│          │                  │                    │             │
-│          └──────────────────┴────────────────────┘             │
-│                             │                                  │
-│              All subscribe to ViewManager events               │
-│              No direct communication between views             │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+![Architecture Diagram](Media/screenshots/architecture_overview.png)
 ```
 
 ---
