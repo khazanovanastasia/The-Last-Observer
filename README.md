@@ -38,7 +38,7 @@ Every action is a trade-off:
 
 ## Core Systems
 
-##  Gameplay Loop
+###  Gameplay Loop
 - Survive a fixed-duration session
 - Observe NPC activity through surveillance cameras
 - Analyze incomplete information using the building map
