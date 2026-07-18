@@ -31,7 +31,7 @@ Input Layer (commands) → Controller Layer (mediator) → View Layer (UI)
 
 ### Core Principles
 
-✅ **Single Source of Truth** - `CameraData[]` array holds all camera state  
+✅ **Single Source of Truth** - 'CameraSystem' owns the CameraData array, which acts as the single source of truth for all surveillance state
 ✅ **Event-Driven** - UI components never poll, only subscribe  
 ✅ **Zero Coupling** - View components don't know about each other  
 ✅ **Testable** - Each layer can be unit tested independently  
@@ -39,7 +39,6 @@ Input Layer (commands) → Controller Layer (mediator) → View Layer (UI)
 ---
 
 ## Architecture Diagram
-
 ![Architecture Diagram](../Media/screenshots/architecture_overview.png)
 
 ---
@@ -91,7 +90,7 @@ void OnEnable() {
 ```
 
 **Benefits:**
-- Zero CPU overhead (no Update() loops checking state)
+- Avoids unnecessary per-frame polling by notifying subscribers only when state changes
 - Instant reactions to state changes
 - UI components can be enabled/disabled without breaking system
 
@@ -128,7 +127,7 @@ Each mode has:
 
 **Justification:**
 - Only one ViewManager should exist per scene
-- Needs global access from input handlers, UI, and gameplay systems
+- Acts as a scene-level coordination service responsible for surveillance mode transitions
 - Prevents accidental instantiation of multiple managers
 
 **Implementation:**
@@ -180,22 +179,40 @@ void Awake() {
 
 | Component | Type | Responsibility |
 |-----------|------|----------------|
-| `CameraData` | Plain C# class | Holds camera state (textures, static flag, position) |
+| `CameraSystem` | MonoBehaviour | Owns and manages all surveillance cameras, rendering resources, and camera state |
+| `CameraData` | Plain C# class | Represents the state of a single surveillance camera |
+
+---
+
+### CameraSystem
+
+**Responsibilities:**
+- Owns the `CameraData[]` collection
+- Creates and releases RenderTextures
+- Provides access to camera data
+- Controls camera activation and rendering resources
+- Serves as the single source of truth for surveillance state
+
+---
+
+### CameraData
 
 **Structure:**
+
 ```csharp
 public class CameraData {
-    public Camera camera;               // Unity Camera component
-    public RenderTexture gridTexture;   // 170×128 low-res
-    public RenderTexture detailTexture; // 680×512 high-res
-    public bool hasStatic;              // Is camera broken?
-    public int index;                   // Camera identifier (0-29)
-    public Vector3 worldPosition;       // For floor plan markers
+    public Camera camera;
+    public RenderTexture gridTexture;
+    public RenderTexture detailTexture;
+    public bool hasStatic;
+    public int index;
+    public Vector3 worldPosition;
 }
 ```
 
-**Why not MonoBehaviour?**  
-Data models should be plain classes for testability. ViewManager instantiates them during initialization.
+`CameraData` is a lightweight data model describing an individual surveillance camera. It contains runtime state and rendering resources while remaining independent of UI and gameplay presentation logic.
+
+Keeping camera state separate from MonoBehaviour components simplifies data access, serialization, and future system extensions.
 
 ---
 
