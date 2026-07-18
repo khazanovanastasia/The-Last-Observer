@@ -25,9 +25,9 @@ You cannot move or fight - your only tools are observation, information manageme
 
 ## Design Goals
 
-The game explores decision-making under uncertainty.
+The game explores decision-making under uncertainty
 
-By removing direct movement and combat, the player is forced to rely on observation, prediction, and resource management.
+By removing direct movement and combat, the player is forced to rely on observation, prediction, and resource management
 
 Every action is a trade-off:
 - closing one door leaves others vulnerable
