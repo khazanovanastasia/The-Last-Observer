@@ -21,7 +21,7 @@ The architecture separates input, gameplay state, and presentation to allow inde
 
 ## Overview
 
-The surveillance system is built on a **three-layer architecture** with strict separation of concerns:
+The surveillance system is built on a **four-layer architecture** with strict separation of concerns:
 
 ```
 Input Layer (commands) → Controller Layer (mediator) → View Layer (UI)
@@ -40,7 +40,7 @@ Input Layer (commands) → Controller Layer (mediator) → View Layer (UI)
 
 ## Architecture Diagram
 
-![Architecture Diagram](Media/screenshots/architecture_overview.png)
+![Architecture Diagram](../Media/screenshots/architecture_overview.png)
 
 ---
 
