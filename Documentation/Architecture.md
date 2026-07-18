@@ -40,9 +40,7 @@ Input Layer (commands) → Controller Layer (mediator) → View Layer (UI)
 
 ## Architecture Diagram
 
-```
 ![Architecture Diagram](Media/screenshots/architecture_overview.png)
-```
 
 ---
 
