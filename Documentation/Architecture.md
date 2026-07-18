@@ -1,6 +1,10 @@
 # System Architecture
 
-**Surveillance Camera System - Technical Breakdown**
+## Context
+
+The surveillance system is the primary gameplay interface of The Last Observer.
+The player interacts with camera feeds, floor plans, and control systems while making decisions based on incomplete information.
+The architecture separates input, gameplay state, and presentation to allow independent development of gameplay systems and UI.
 
 ---
 
