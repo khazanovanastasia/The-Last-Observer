@@ -4,10 +4,10 @@
 
 This public repository contains a curated selection of scripts and systems that illustrate the core surveillance mechanics of the game.
 
+![Gameplay Demo](Media/gifs/observer_demo.gif)
+
 > *Full Unity project remains private*  
 > *This repository is designed as a clean and readable technical showcase*
-
-![Gameplay Demo](Media/gifs/observer_demo.gif)
 
 ---
 
