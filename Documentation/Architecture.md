@@ -21,7 +21,7 @@ The architecture separates input, gameplay state, and presentation to allow inde
 
 ## Overview
 
-The surveillance system is built on a **four-layer architecture** with strict separation of concerns:
+The surveillance system is organized around a central coordinator (ViewManager) that separates input handling, application state, and presentation
 
 ```
 Input Layer (commands)
@@ -35,7 +35,7 @@ Input Layer (commands)
     
 ### Core Principles
 
-✅ **Single Source of Truth** - 'CameraSystem' owns the CameraData array, which acts as the single source of truth for all surveillance state
+✅ **Single Source of Truth** - ViewManager owns the CameraData collection, providing a single source of truth for surveillance state
 ✅ **Event-Driven** - UI components never poll, only subscribe  
 ✅ **Zero Coupling** - View components don't know about each other  
 ✅ **Testable** - Each layer can be unit tested independently  
@@ -134,7 +134,7 @@ Each mode defines:
 - Entry actions (enable cameras, show UI)
 - Exit actions (disable cameras, hide UI)
 - Allowed transitions between view modes
-- Context-specific input handling (e.g. ESC behaves differently depending on the current mode)
+- State-specific input handling
 
 ---
 
@@ -145,7 +145,7 @@ Each mode defines:
 | Component | Type | Responsibility |
 |-----------|------|----------------|
 | `InputHandler` | MonoBehaviour | Translates keyboard and mouse input into gameplay commands (ESC, 1–5, A/D, mouse interaction) |
-| `PlayerInteraction` | MonoBehaviour | Raycasts against interactive objects (camera monitors, floor plan, etc.) |
+| `PlayerInteraction` | MonoBehaviour | Raycasts against interactive gameplay objects |
 
 **Key Point:** Input layer **does not contain game logic** - only translates user input into commands handled by higher-level systems
 
@@ -155,7 +155,7 @@ Each mode defines:
 
 | Component | Type | Responsibility |
 |-----------|------|----------------|
-| `ViewManager` | Singleton MonoBehaviour | Coordinates gameplay view modes, surveillance cameras, rendering, pause state, and system-wide events |
+| `ViewManager` | Singleton MonoBehaviour | Coordinates view modes, surveillance cameras, rendering, pause state, and system-wide events |
 
 **Owns**
 - CameraData[]
@@ -178,17 +178,6 @@ Each mode defines:
 
 ---
 
-### CameraSystem
-
-**Responsibilities:**
-- Owns the `CameraData[]` collection
-- Creates and releases RenderTextures
-- Provides access to camera data
-- Controls camera activation and rendering resources
-- Serves as the single source of truth for surveillance state
-
----
-
 ### CameraData
 
 **Structure:**
@@ -200,7 +189,6 @@ public class CameraData {
     public RenderTexture detailTexture;
     public bool hasStatic;
     public int index;
-    public Vector3 worldPosition;
 }
 ```
 
@@ -214,7 +202,7 @@ Keeping camera state separate from MonoBehaviour components simplifies data acce
 
 | Component | Role | Subscribes To |
 |-----------|------|---------------|
-| `CameraGridUI` | Grid of 30 cameras | `OnModeChanged`, `OnStaticChanged` |
+| `CameraGridUI` | Scrollable camera grid | `OnModeChanged`, `OnStaticChanged` |
 | `CameraImageButton` | Single button in grid | N/A (instantiated by Grid) |
 | `DetailViewUI` | Full-screen camera view | `OnCameraSelected`, `OnStaticChanged` |
 | `FloorPlanUI` | Blueprint + notes | `OnModeChanged` |
@@ -260,8 +248,9 @@ public event Action<int> OnCameraSelected;
 
 ```csharp
 // Grid Mode - all cameras enabled
-foreach (Camera cam in cameras) {
-    cam.enabled = true;
+foreach (CameraData data in cameras) {
+    if (!data.hasStatic)
+          data.camera.enabled = true;
 }
 StartCoroutine(UpdateGridTexturesCoroutine());
 
@@ -494,12 +483,12 @@ DetailViewUI ──┬──► ViewManager
 **After (Star Topology):**
 ```
                            ViewManager
-                          ┌─────┴─────┐
-                          │ CameraData│
-                          │  hasStatic│
-                          └─────┬─────┘
+                          ┌─────┴──────┐
+                          │ CameraData │
+                          │  hasStatic │
+                          └─────┬──────┘
                                 │
-                    Fires OnStaticChanged
+                      Fires OnStaticChanged
                                 │
                 ┌───────────────┼───────────────┐
                 ▼                               ▼
@@ -511,18 +500,14 @@ DetailViewUI ──┬──► ViewManager
 
 ## Summary
 
-The refactored architecture achieves:
+The refactored architecture provides:
 
-✅ **Separation of Concerns** - Input, Controller, Model, View all isolated  
-✅ **Single Responsibility** - Each component has one clear job  
-✅ **Dependency Inversion** - UI depends on events, not concrete implementations  
-✅ **Open/Closed** - Can add new view modes without modifying existing code  
-✅ **Testability** - Each layer mockable and unit-testable  
+- **Centralized coordination** — `ViewManager` acts as the single coordination point for surveillance modes and shared gameplay state.
+- **Event-driven communication** — UI components react to state changes without direct dependencies on each other.
+- **Clear separation between data and presentation** — camera state is stored in `CameraData`, while UI is responsible only for visualization.
+- **Extensible view system** — new interfaces and view modes can be integrated without tightly coupling existing UI components.
+- **Maintainable codebase** — reduced coupling makes systems easier to modify, debug, and test independently.
 
-This structure scales well for additional features like:
-- Recording/playback system
-- AI detection overlays
-- Multi-player spectator mode
-- VR support
+The current architecture prioritizes clarity and low coupling while remaining lightweight for a project of this scope. 
+It provides a solid foundation for future expansion without introducing unnecessary complexity
 
-See [DataFlow.md](DataFlow.md) for detailed event propagation examples.
