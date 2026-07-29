@@ -18,7 +18,7 @@ Surrounded by five doors and a failing surveillance system, the player must surv
 
 **You cannot move. You can only observe**
 
-Your objective is to survive a fixed-duration session while hostile NPCs navigate through the building
+Your objective is to survive a fixed-duration session while hostile NPCs navigate through the building.
 You cannot move or fight - your only tools are observation, information management, and limited environmental control
 
 ---
