@@ -39,6 +39,7 @@ Input Layer (commands) → Controller Layer (mediator) → View Layer (UI)
 ---
 
 ## Architecture Diagram
+
 ┌─────────────────────────────────────────────────────────────────┐
 │                         INPUT LAYER                             │
 │                                                                 │
