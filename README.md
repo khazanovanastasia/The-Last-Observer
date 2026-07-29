@@ -14,13 +14,11 @@ The complete Unity project remains private. This repository focuses on selected 
 ## About the Game
 
 **The Last Observer** places the player in a sealed panopticon room at the center of a multi-floor building.
-
 Surrounded by five doors and a failing surveillance system, the player must survive as hostile NPCs move through the environment
 
 **You cannot move. You can only observe**
 
 Your objective is to survive a fixed-duration session while hostile NPCs navigate through the building
-
 You cannot move or fight - your only tools are observation, information management, and limited environmental control
 
 ---
