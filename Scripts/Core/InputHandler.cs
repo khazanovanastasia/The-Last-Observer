@@ -1,9 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// Handles all keyboard and mouse input for camera system navigation
-/// Delegates commands to ViewManager without containing business logic
-/// </summary>
 public class InputHandler : MonoBehaviour
 {
     private ViewManager viewManager;
@@ -14,7 +10,7 @@ public class InputHandler : MonoBehaviour
 
         if (viewManager == null)
         {
-            Debug.LogError("ViewManager instance not found! InputHandler requires ViewManager.");
+            Debug.LogError("ViewManager instance not found! InputHandler requires ViewManager");
             enabled = false;
         }
     }

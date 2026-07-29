@@ -21,7 +21,7 @@ public class BlenderTextureImportProcessor : AssetPostprocessor
             importer.sRGBTexture = true;
             importer.alphaSource = TextureImporterAlphaSource.FromInput;
             importer.mipmapEnabled = true;
-            importer.filterMode = FilterMode.Point;  // Point filtering для pixel art стиля
+            importer.filterMode = FilterMode.Point;  
             importer.textureCompression = TextureImporterCompression.CompressedHQ;
 
             SetPlatformTextureSettings(importer, "Standalone", 2048, TextureImporterFormat.DXT5);
@@ -35,7 +35,7 @@ public class BlenderTextureImportProcessor : AssetPostprocessor
             Debug.Log($"[Blender Baker] Импорт Normal Map: {filename}");
 
             importer.textureType = TextureImporterType.NormalMap;
-            importer.sRGBTexture = false;  // Linear space
+            importer.sRGBTexture = false;  
             importer.mipmapEnabled = true;
             importer.textureCompression = TextureImporterCompression.CompressedHQ;
 
@@ -72,7 +72,7 @@ public class BlenderTextureImportProcessor : AssetPostprocessor
             Debug.Log($"[Blender Baker] Импорт Metallic: {filename}");
 
             importer.textureType = TextureImporterType.Default;
-            importer.sRGBTexture = false;  // Linear space
+            importer.sRGBTexture = false;  
             importer.alphaSource = TextureImporterAlphaSource.None;
             importer.mipmapEnabled = true;
             importer.textureCompression = TextureImporterCompression.CompressedHQ;
@@ -86,7 +86,7 @@ public class BlenderTextureImportProcessor : AssetPostprocessor
             Debug.Log($"[Blender Baker] Импорт Roughness: {filename}");
 
             importer.textureType = TextureImporterType.Default;
-            importer.sRGBTexture = false;  // Linear space
+            importer.sRGBTexture = false;  
             importer.alphaSource = TextureImporterAlphaSource.None;
             importer.mipmapEnabled = true;
             importer.textureCompression = TextureImporterCompression.CompressedHQ;
@@ -100,7 +100,7 @@ public class BlenderTextureImportProcessor : AssetPostprocessor
             Debug.Log($"[Blender Baker] Импорт AO: {filename}");
 
             importer.textureType = TextureImporterType.Default;
-            importer.sRGBTexture = false;  // Linear space
+            importer.sRGBTexture = false;  
             importer.alphaSource = TextureImporterAlphaSource.None;
             importer.mipmapEnabled = true;
             importer.textureCompression = TextureImporterCompression.CompressedHQ;
@@ -114,7 +114,7 @@ public class BlenderTextureImportProcessor : AssetPostprocessor
             Debug.Log($"[Blender Baker] Импорт Emission: {filename}");
 
             importer.textureType = TextureImporterType.Default;
-            importer.sRGBTexture = true;  // sRGB для цветов
+            importer.sRGBTexture = true;  
             importer.alphaSource = TextureImporterAlphaSource.FromInput;
             importer.mipmapEnabled = true;
             importer.textureCompression = TextureImporterCompression.CompressedHQ;
@@ -162,7 +162,7 @@ public class BlenderBakerUtilities
             if (importer != null && importer.sRGBTexture)
             {
                 Debug.LogWarning($"Исправляю MRAO текстуру: {path}");
-                importer.sRGBTexture = false;  // Отключаем sRGB
+                importer.sRGBTexture = false;  
                 importer.SaveAndReimport();
                 fixedTextures++;
             }
@@ -257,7 +257,6 @@ public class BlenderBakerUtilities
 
         string materialName = albedo.name.Replace("_Albedo", "").Replace("_albedo", "");
 
-        // Используем Standard shader для Built-in Render Pipeline
         Material mat = new Material(Shader.Find("Standard"));
 
         // Albedo
@@ -272,7 +271,7 @@ public class BlenderBakerUtilities
             mat.SetFloat("_BumpScale", 1f);
         }
 
-        // MRAO (комбинированная карта: Metallic, Roughness, AO)
+        // MRAO 
         if (mrao != null)
         {
             mat.SetTexture("_MetallicGlossMap", mrao);
@@ -280,15 +279,13 @@ public class BlenderBakerUtilities
             mat.SetFloat("_Glossiness", 1f);
             mat.EnableKeyword("_METALLICGLOSSMAP");
 
-            // Для Built-in нужно установить workflow
-            mat.SetFloat("_SmoothnessTextureChannel", 0); // 0 = Metallic Alpha, 1 = Albedo Alpha
+            mat.SetFloat("_SmoothnessTextureChannel", 0); 
             mat.SetFloat("_GlossMapScale", 1f);
 
             Debug.Log("→ MRAO карта назначена. R=Metallic, G=Roughness, B=AO");
         }
         else
         {
-            // Если нет MRAO, используем отдельные текстуры
             if (metallic != null)
             {
                 mat.SetTexture("_MetallicGlossMap", metallic);
@@ -302,7 +299,6 @@ public class BlenderBakerUtilities
 
             if (roughness != null)
             {
-                // В Standard shader roughness инвертируется в smoothness
                 mat.SetFloat("_Glossiness", 0.5f);
                 Debug.LogWarning("⚠ Roughness текстура найдена, но Standard shader использует Smoothness. Рекомендуется использовать MRAO.");
             }
@@ -323,7 +319,6 @@ public class BlenderBakerUtilities
             mat.SetColor("_EmissionColor", Color.white);
         }
 
-        // Сохранение материала
         string path = AssetDatabase.GetAssetPath(albedo);
         string directory = Path.GetDirectoryName(path);
         string materialPath = Path.Combine(directory, $"{materialName}.mat");

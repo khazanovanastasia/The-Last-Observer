@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PrisonerAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour
 {
     [Header("Movement")]
     public float minWalkDistance = 3f;
