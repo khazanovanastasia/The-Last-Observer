@@ -56,6 +56,13 @@ Every note reflects the player's interpretation of incomplete information, makin
 - **Floor Plan** - annotate blueprints to track camera locations and passages condition
 - Randomized broken cameras for incomplete information each playthrough
 
+### Floor Plan & Annotation System
+- Interactive blueprints of every floor
+- Freeform drawing and erasing directly on the map
+- Compare surveillance feeds with building layouts to build situational awareness
+- Player-created notes become part of the gameplay and may be accurate, incomplete, or incorrect
+- No automated tracking or markers - all documentation is maintained by the player
+
 ### NPC Behavior
 - Unity NavMesh-based pathfinding
 - Event-driven behavior (lights out, broken cameras, opened passages)
