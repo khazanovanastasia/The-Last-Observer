@@ -103,13 +103,11 @@ Custom Blender → Unity workflow for automated texture baking and material setu
 ```
 /Scripts
     /Core               # ViewManager, CameraData, InputHandler
-    /Camera             # Camera controllers and rendering
-    /UI                 # Grid, Detail, FloorPlan UI components
+    /DoorSystem         # Door control mechanics
+    /Editor             # Material import pipeline tool
     /Interaction        # 3D object interaction system
     /NPC                # Enemy AI and navigation
-    /DoorSystem         # Door control mechanics
-    /Events             # Phone and game event systems
-    /Editor             # Material import pipeline tool
+    /UI                 # Grid, Detail, FloorPlan UI components
 
 /Documentation
     Architecture.md     # System design and data flow
