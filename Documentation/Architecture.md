@@ -24,11 +24,15 @@ The architecture separates input, gameplay state, and presentation to allow inde
 The surveillance system is built on a **four-layer architecture** with strict separation of concerns:
 
 ```
-Input Layer (commands) → Controller Layer (mediator) → View Layer (UI)
-                              ↓
-                         Model Layer (data)
+Input Layer (commands)
+      │
+      v
+  ViewManager
+      │
+      ├── CameraData[]
+      └── View Layer (UI)
 ```
-
+    
 ### Core Principles
 
 ✅ **Single Source of Truth** - 'CameraSystem' owns the CameraData array, which acts as the single source of truth for all surveillance state
@@ -46,27 +50,37 @@ Input Layer (commands) → Controller Layer (mediator) → View Layer (UI)
 
 ## Design Patterns
 
-### 1. Mediator Pattern (ViewManager)
+### 1. ViewManager (Mediator)
 
-**Problem:**  
-Without a mediator, UI components would need to know about each other, creating a tightly coupled mesh of dependencies.
+**Responsibility**
+- Central coordinator for all gameplay view modes
+- Decouples UI components from one another
+- Manages view transitions, camera activation, and shared state
 
-**Solution:**  
-`ViewManager` acts as central hub - all communication goes through it.
+**Why a mediator?**
 
-```
-❌ Before:
+Without a mediator, UI components would need direct references to each other, creating a tightly coupled dependency graph.
+
+```text
+❌ Without ViewManager
+
 CameraGridUI ←→ DetailViewUI ←→ FloorPlanUI
     ↕              ↕              ↕
   Camera1 ←─→  Camera2 ←─→  Camera3
-  
-✅ After:
+
+✅ With ViewManager
+
 CameraGridUI ──┐
                │
 DetailViewUI ──┼──► ViewManager ──► CameraData[]
                │
 FloorPlanUI ───┘
 ```
+
+**Implementation notes**
+- Implemented as a singleton to provide a single coordination point during gameplay.
+- Owns the current `ViewMode` state.
+- Controls transitions between Panopticon, Camera Grid, Detail View, and Floor Plan.
 
 ---
 
@@ -76,7 +90,7 @@ FloorPlanUI ───┘
 How do UI components know when camera state changes without polling every frame?
 
 **Solution:**  
-Event-driven updates via C# `Action` delegates.
+Event-driven updates via C# `Action` delegates
 
 ```csharp
 // ViewManager fires events
@@ -101,10 +115,9 @@ void OnEnable() {
 
 **States:**
 ```
-Panopticon → CameraGrid → DetailView → FloorPlan
-     ↑          ↓             ↓            ↓
-     └──────────┴─────────────┴────────────┘
-              (ESC key returns to Panopticon)
+Panopticon ⇄ CameraGrid ⇄ DetailView
+      ⇅
+  FloorPlan
 ```
 
 **Implementation:**
@@ -117,32 +130,11 @@ public enum ViewMode {
 }
 ```
 
-Each mode has:
+Each mode defines:
 - Entry actions (enable cameras, show UI)
 - Exit actions (disable cameras, hide UI)
-- Valid transitions (can't skip from Panopticon to DetailView)
-
----
-
-### 4. Singleton Pattern (ViewManager)
-
-**Justification:**
-- Only one ViewManager should exist per scene
-- Acts as a scene-level coordination service responsible for surveillance mode transitions
-- Prevents accidental instantiation of multiple managers
-
-**Implementation:**
-```csharp
-public static ViewManager Instance { get; private set; }
-
-void Awake() {
-    if (Instance == null) {
-        Instance = this;
-    } else {
-        Destroy(gameObject);
-    }
-}
-```
+- Allowed transitions between view modes
+- Context-specific input handling (e.g. ESC behaves differently depending on the current mode)
 
 ---
 
@@ -152,27 +144,29 @@ void Awake() {
 
 | Component | Type | Responsibility |
 |-----------|------|----------------|
-| `InputHandler` | MonoBehaviour | Global keyboard commands (ESC, Tab, A/D) |
-| `PlayerInteraction` | MonoBehaviour | 3D raycast for monitor/blueprint objects |
+| `InputHandler` | MonoBehaviour | Translates keyboard and mouse input into gameplay commands (ESC, 1–5, A/D, mouse interaction) |
+| `PlayerInteraction` | MonoBehaviour | Raycasts against interactive objects (camera monitors, floor plan, etc.) |
 
-**Key Point:** Input layer **does not contain game logic** - only translates user actions into commands for ViewManager.
+**Key Point:** Input layer **does not contain game logic** - only translates user input into commands handled by higher-level systems
 
 ---
 
-### Controller Layer (Mediator)
+### Controller Layer
 
 | Component | Type | Responsibility |
 |-----------|------|----------------|
-| `ViewManager` | Singleton MonoBehaviour | FSM, camera control, event firing |
+| `ViewManager` | Singleton MonoBehaviour | Coordinates gameplay view modes, surveillance cameras, rendering, pause state, and system-wide events |
 
-**Owns:**
-- `CameraData[] cameras` - array of all camera state
-- Current `ViewMode` enum value
-- Coroutines for rendering
+**Owns**
+- CameraData[]
+- Current ViewMode
+- Rendering and camera-breaking coroutines
+- Surveillance camera lifecycle
+- Gameplay events
 
-**Does NOT own:**
-- UI GameObjects (owned by respective UI scripts)
-- Input state (owned by InputHandler)
+**Does not own**
+- UI implementation (owned by UI components)
+- Raw player input (owned by InputHandler)
 
 ---
 
@@ -180,8 +174,7 @@ void Awake() {
 
 | Component | Type | Responsibility |
 |-----------|------|----------------|
-| `CameraSystem` | MonoBehaviour | Owns and manages all surveillance cameras, rendering resources, and camera state |
-| `CameraData` | Plain C# class | Represents the state of a single surveillance camera |
+| `CameraData` | Plain C# class | Stores the state and rendering resources of a single surveillance camera |
 
 ---
 
