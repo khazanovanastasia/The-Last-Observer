@@ -34,6 +34,9 @@ Every action is a trade-off:
 - focusing on one camera reduces awareness of the rest of the building
 - incomplete information creates pressure and uncertainty
 
+**The player creates their own intelligence**
+Floor plans are not automatically updated. Players are free to inspect the building, compare camera feeds, and annotate maps in any way they choose. Because information is gathered through observation, notes can be accurate, outdated, or completely incorrect, turning documentation itself into part of the gameplay.
+
 ---
 
 ## Core Systems
